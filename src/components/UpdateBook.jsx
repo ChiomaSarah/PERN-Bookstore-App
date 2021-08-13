@@ -24,7 +24,7 @@ async function saveChanges(e){
             book_publication_date: book_publication_date
     }
 
-   const response = await fetch(`http://localhost:2010/books/${book.book_id}`, {
+   const response = await fetch(`https://mysterious-hamlet-48690.herokuapp.com/https://bookstore-api-postgresql.herokuapp.com/books/${book.book_id}`, {
             method: 'PATCH', 
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(body)
@@ -74,7 +74,7 @@ return(
                   <input onChange={(e) => setBookGenre(e.target.value)} name="book_genre" value={book_genre} type="text" min="1" className="form-control" placeholder="Book Genre"></input>
                 </div>
               <div className="modal-body">
-                  <input onChange={(e) => setBookPublicationDate(e.target.value)} name="book_publication_date"  value={book_publication_date} type="date" className="form-control" placeholder="Book Publication Date"></input>
+                  <input onChange={(e) => setBookPublicationDate(e.target.value)} name="book_publication_date"  value={book_publication_date} className="form-control" placeholder="dd-mm-yyyy"></input>
                 </div>
 
       {/* modal footer */}

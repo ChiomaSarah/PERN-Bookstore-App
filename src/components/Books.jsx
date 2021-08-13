@@ -8,7 +8,7 @@ function Books() {
     const[loading, setLoading] = useState(false);
     const[currentPage, setCurrentPage] = useState(1);
     const[booksPerPage] = useState(5);
-    const[query, setQuery] = useState("");
+    const[searchQuery, setSearchQuery] = useState("");
   
 
     // fetch all books from the database
@@ -18,9 +18,9 @@ function Books() {
 
         try {
           setLoading(true);
-            const response = await fetch("http://localhost:2010/books");
+            const response = await fetch("https://mysterious-hamlet-48690.herokuapp.com/https://bookstore-api-postgresql.herokuapp.com/books");
             const jsonData = await response.json();
-
+console.log(jsonData);
             setBooks(jsonData.data);
             setLoading(false);
         } catch (err) {
@@ -32,11 +32,22 @@ function Books() {
   },[]);
     
 
+  // useEffect(() =>{
+  //   fetchItems();
+  // },[])
+  // const fetchItems = async () => {
+  //   const response = await fetch('https://mysterious-hamlet-48690.herokuapp.com/https://bookstore-api-postgresql.herokuapp.com/books');
+
+  //   const jsonData = await response.json();
+  //   console.log(jsonData);
+  //   setBooks(jsonData.data)
+  // }
+
     // delete a book from the database
 
     async function deleteBook(id){
       try{
-            await fetch(`http://localhost:2010/books/${id}`,{
+            await fetch(`https://mysterious-hamlet-48690.herokuapp.com/https://bookstore-api-postgresql.herokuapp.com/books/${id}`,{
               method: 'DELETE',
             });
     
@@ -48,15 +59,15 @@ function Books() {
     }
 
     // find a book by all parameters
-    function search(books){
-            return books.filter(book => 
-                book.book_id.indexOf(query) >-1 ||
-                book.book_title.toLowerCase().indexOf(query) >-1 ||
-                book.book_author.toLowerCase().indexOf(query) >-1 ||
-                book.book_genre.toLowerCase().indexOf(query) >-1 ||
-                book.book_publication_date.indexOf(query) >-1 
-            )
-      }
+    // function search(rows){
+    //         return rows.filter(row => 
+    //             row.book_id.indexOf(query) >-1 
+    //             // row.book_title.toLowerCase().indexOf(query) >-1 ||
+    //             // row.book_author.toLowerCase().indexOf(query) >-1 ||
+    //             // row.book_genre.toLowerCase().indexOf(query) >-1 ||
+    //             // row.book_publication_date.indexOf(query) >-1 
+    //         )
+    //   }
 
     // create pagination for maximized viewing
     const indexOfLastBook = currentPage * booksPerPage;
@@ -85,7 +96,7 @@ function Books() {
 
               {/* create a search bar to find a book */}
 
-                <input type="text" placeholder="search book..." className="form-control mt-5 mb-5 float-right" style={{width:"20%"}}  onChange={(e)=>setQuery(e.target.value)}/>
+                <input type="text" placeholder="search book..." className="form-control mt-5 mb-5 float-right" style={{width:"20%"}}  onChange={(e)=>setSearchQuery(e.target.value)}/>
 
 
               {/* create a dynamic table */}
@@ -104,7 +115,18 @@ function Books() {
                   </tr>
                 </thead>
             <tbody style={{color: "#fff"}}>
-              {search(currentBooks).map((book) =>(
+
+              {/* filter the table to return a search term and map the filtered table to display all items */}
+              
+              {(currentBooks).filter((val)=>{
+                if(searchQuery === (" ")){
+                  return val;
+                }else if( val.book_title.toLowerCase().includes(searchQuery.toLowerCase()) || val.book_author.toLowerCase().includes(searchQuery.toLowerCase()) || val.book_genre.toLowerCase().includes(searchQuery.toLowerCase()) || val.book_publication_date.includes(searchQuery)){
+                    return val;
+                }else{
+                  return "";
+                }
+              }).map((book) =>(
                   <tr key={book.book_id}>
                       <td>{book.book_id}</td>
                       <td>{book.book_title}</td>

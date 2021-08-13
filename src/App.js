@@ -1,6 +1,6 @@
-import React, { Fragment } from "react";
+import React from "react";
 import "./App.css";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Home from "./components/Home";
 import Books from "./components/Books";
@@ -8,23 +8,16 @@ import AddBook from "./components/AddBook";
 
 function App() {
   return (
-    <Fragment>
-      <Router>
-        <Navbar />
+    <Router>
+      <Navbar />
+      <Switch>
+        <Route path="/" exact component={Home} />
 
-        <Route path="/" exact>
-          <Home />
-        </Route>
+        <Route path="/books" component={Books} />
 
-        <Route path="/books">
-          <Books />
-        </Route>
-
-        <Route path="/add-book">
-          <AddBook />
-        </Route>
-      </Router>
-    </Fragment>
+        <Route path="/add-book" component={AddBook} />
+      </Switch>
+    </Router>
   );
 }
 
