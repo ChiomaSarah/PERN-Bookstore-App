@@ -110,7 +110,7 @@ function Books() {
                     <td>{book.book_genre}</td>
                     <td>{book.book_publication_date}</td>
                     <td>
-                    <div class="btn-group">
+                    <div className="btn-group">
                       <UpdateBook book={book} />                   
                         <button className="btn btn-sm btn-danger ml-3" onClick={() => {
                             const confirm = window.confirm("Are you sure you want to delete this record?\n\nThis action cannot be undone.");
